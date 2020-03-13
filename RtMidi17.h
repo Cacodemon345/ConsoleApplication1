@@ -1,2 +1,3 @@
 #pragma once
-#include "rtmidi17.hpp"
+#include "RtMidi17/rtmidi17.hpp"
+#include "RtMidi17/message.hpp"

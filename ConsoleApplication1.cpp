@@ -46,7 +46,7 @@ int main()
     }
     std::cout << "Select a device: ";
     int selection;
-    scanf_s("%d", &selection);
+    scanf("%d", &selection);
     midiin.set_callback(MidiInMessage);
     midiin.open_port(selection);
     num = midiout.get_port_count();
@@ -56,7 +56,7 @@ int main()
         std::cout << i << ". " << midiout.get_port_name(i) << std::endl;
     }
     std::cout << "Select a device: ";
-    scanf_s("%d", &selection);
+    scanf("%d", &selection);
     midiout.open_port(selection);
 
     srand(time(NULL));
