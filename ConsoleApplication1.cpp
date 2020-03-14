@@ -28,11 +28,6 @@ rtmidi::midi_out midiout = rtmidi::midi_out();
 
 int main()
 {
-    shaderString += "void main()";
-    shaderString += "{";
-    shaderString += "gl_FragColor = vec4(1.0,1.0,1.0,gl_FragColor.a);";
-    shaderString += "}";
-    custShaderObj.loadFromMemory(shaderString, sf::Shader::Fragment);
     captureTex.create(800, 600);
     window.setVisible(false);
     unsigned int i;

@@ -1,10 +1,11 @@
 #include "CommonInclude.h"
+#include <iomanip>
 extern sf::RenderWindow window;
 
 void MidiInMessage(const rtmidi::message& message)
 {
-    auto lobyted = message.bytes.at(0);
-    auto lobyted2 = message.bytes.at(1);
+    unsigned char  lobyted = message.bytes.at(0);
+    unsigned char  lobyted2 = message.bytes.at(1);
     unsigned char hibyted;
     try {
         hibyted = message.bytes.at(2);
@@ -13,17 +14,16 @@ void MidiInMessage(const rtmidi::message& message)
     {
         hibyted = 0;
     }
-    if (lobyted == 0xFF)
+    printf("Bytes found: ");
+    for (auto bytes : message.bytes)
     {
-        for (int i = 0; i < 16; i++)
-        {
-            rects[i]->isNoteOn = false;
-        }
-        return;
+        printf("0x%x,",bytes);
     }
-    switch (lobyted & 0xF0)
+    //printf("Bytes found: 0x%x, 0x%x, 0x%x",lobyted,lobyted2,hibyted);
+    std::cout << std::endl;
+    switch (message.get_message_type())
     {
-    case 0xB0:
+    case rtmidi::message_type::CONTROL_CHANGE:
         if (lobyted2 == 0x7B)
         {
             for (int i = 0; i < 16; i++)
@@ -32,15 +32,17 @@ void MidiInMessage(const rtmidi::message& message)
             }
         }
         break;
-    case 0x80:
-        rects[lobyted & 0x0F]->isNoteOn = false;
+    case rtmidi::message_type::NOTE_OFF:
+        std::cout << "Note Off" << std::endl;
+        rects[message.get_channel()]->isNoteOn = false;
         break;
-    case 0x90:
+    case rtmidi::message_type::NOTE_ON:
+        std::cout << "Note On" << std::endl;
         double value = hibyted / 127;
         int highbytevalue = lerp(window.getSize().y, 0, value);
-        rects[lobyted & 0x0F]->lerpInto = highbytevalue;
-        rects[lobyted & 0x0F]->isNoteOn = true;
-        if ((lobyted & 0x0F) == 0x9) rects[lobyted & 0x0F]->lerpFactor = 0.25;
+        rects[message.get_channel()]->lerpInto = highbytevalue;
+        rects[message.get_channel()]->isNoteOn = true;
+        if ((message.get_channel()) == 0x9) rects[message.get_channel()]->lerpFactor = 0.25;
         break;
     }
     midiout.send_message(message);
