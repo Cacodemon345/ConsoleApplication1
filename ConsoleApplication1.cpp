@@ -1,4 +1,3 @@
-
 #include "CommonInclude.h"
 
 std::vector<NoteRectangleShape*> rects;
