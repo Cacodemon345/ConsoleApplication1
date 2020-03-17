@@ -1,5 +1,6 @@
 #include "CommonInclude.h"
 #include <iomanip>
+
 extern sf::RenderWindow window;
 
 void MidiInMessage(const rtmidi::message& message)
@@ -13,14 +14,14 @@ void MidiInMessage(const rtmidi::message& message)
     }
     catch (std::out_of_range &outofrange)
     {
-        std::cout << "third byte not available" << std::endl;
+        //std::cout << "third byte not available" << std::endl;
         hibyted = 0;
     }
-    printf("Bytes found: ");
+    /*printf("Bytes found: ");
     for (auto bytes : message.bytes)
     {
         printf("0x%x,",bytes);
-    }
+    }*/
     bool noteoff = false;
     if (message.get_message_type() == rtmidi::message_type::NOTE_ON
         && hibyted == 0)
@@ -41,7 +42,7 @@ void MidiInMessage(const rtmidi::message& message)
         }
         break;
     case rtmidi::message_type::NOTE_OFF:
-        std::cout << "Note Off" << std::endl;
+        //std::cout << "Note Off" << std::endl;
         rects[message.get_channel()-1]->isNoteOn = false;
         break;
     case rtmidi::message_type::NOTE_ON:
@@ -50,7 +51,7 @@ void MidiInMessage(const rtmidi::message& message)
             rects[message.get_channel()-1]->isNoteOn = false;
             break;
         }
-        std::cout << "Note On" << std::endl;
+        //std::cout << "Note On" << std::endl;
         double value = hibyted / 127;
         int highbytevalue = lerp(window.getSize().y, 0, value);
         rects[message.get_channel()-1]->lerpInto = highbytevalue;

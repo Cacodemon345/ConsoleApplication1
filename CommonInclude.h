@@ -11,6 +11,7 @@
 #include <string>
 #include "RtMidi17.h"
 
+
 extern rtmidi::midi_in midiin;
 extern rtmidi::midi_out midiout;
 void MidiInMessage(const rtmidi::message& message);

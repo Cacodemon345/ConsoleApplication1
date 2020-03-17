@@ -9,8 +9,8 @@ sf::Texture texture;
 extern double lerp(double v0, double v1, double t);
 
 constexpr auto SFMLMINRECTSIZE = 10.0;
-
 sf::RenderWindow window(sf::VideoMode(800, 600), "Test");
+sf::WindowHandle windowhandle = window.getSystemHandle();
 sf::RectangleShape mfillrect(sf::Vector2f(window.getSize().x,window.getSize().y));
 sf::Texture captureTex = sf::Texture();
 sf::Sprite captureSprite = sf::Sprite(captureTex);
@@ -76,19 +76,18 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
-            case sf::Event::KeyPressed:
+            case sf::Event::TextEntered:
                 auto oldColor = mfillrect.getFillColor();
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add))
-                {
-                    oldColor.a -= 1;
-                }
-                else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract))
+                if (event.text.unicode == '+')
                 {
                     oldColor.a += 1;
                 }
+                else if (event.text.unicode == '-')
+                {
+                    oldColor.a -= 1;
+                }
                 mfillrect.setFillColor(oldColor);
-                std::string outstring(std::string("Current fade out: ") + std::to_string(mfillrect.getFillColor().a));
-                std::cout << outstring;
+                break;
             }
         }
         for (i = 0; i < rects.size(); i++)

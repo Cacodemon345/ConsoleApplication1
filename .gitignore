@@ -13,8 +13,8 @@
 *.cbp
 *.layout
 settings.json
-
-
+.vscode/
+*.kdev4
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

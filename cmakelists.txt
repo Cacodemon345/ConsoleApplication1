@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(midi_input_visualizer)
 set(CMAKE_CXX_STANDARD 17)
-add_executable(midi_input_visualizer ConsoleApplication1.cpp WinMidiPlayback.cpp)
+add_executable(midi_input_visualizer ConsoleApplication1.cpp WinMidiPlayback.cpp LinuxXWin.cpp)
 add_subdirectory(RtMidi17)
 find_library(NAMES RtMidi17)
 include_directories(midi_input_visualizer RtMidi17 SFML)
